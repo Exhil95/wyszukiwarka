@@ -1,0 +1,3 @@
+pdfplumber==0.5.28
+auto-py-to-exe==2.29.0
+pyinstaller==4.10
