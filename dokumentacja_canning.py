@@ -1,10 +1,13 @@
 import os
 import tkinter as tk
 from tkinter import messagebox, font, Label, Frame, Scrollbar, Canvas, Toplevel
-from PIL import Image, ImageTk
 import pdfplumber
 import threading
 import queue
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 def find_files_with_reference(directory, reference_number):
     matches = []
@@ -228,26 +231,20 @@ def open_directory_window(directory, title, tooltip_text):
     height = tile_frame.winfo_height()
     dir_window.geometry(f"{width}x{height}")
 
-predefined_directory = 'F:/'
-gci_directory = 'F:/GCI/'
-mpv_directory = 'F:/MPV/'
-psi_directory = 'F:/PSI/'
-swi_directory = 'F:/SWI/'
-vbs_directory = 'F:/VBS/'
+predefined_directory = config.get('path', 'dir')
+gci_directory = config.get('path', 'gci')
+mpv_directory = config.get('path', 'mpv')
+psi_directory = config.get('path', 'psi')
+swi_directory = config.get('path', 'swi')
+vbs_directory = config.get('path', 'vbs')
 
 root = tk.Tk()
 root.title("Canning - wyszukiwarka dokumentacji - Python edition")
 root.configure(bg='#0033A0')
 
-current_dir = os.path.dirname(__file__)
+image_filename = tk.PhotoImage(file="tenlogo.png")
 
-image_filename = "tenlogo.png"
-
-logo_path = os.path.join(current_dir, image_filename)
-logo_image = Image.open(logo_path)
-logo_image = logo_image.resize((700, 100), Image.LANCZOS)
-logo_photo = ImageTk.PhotoImage(logo_image)
-logo_label = Label(root, image=logo_photo, bg='#0033A0')
+logo_label = Label(root, image=image_filename, bg='#0033A0')
 logo_label.grid(row=0, column=0, columnspan=4, pady=10)
 
 header_label = Label(root, text="Wyszukiwarka Dokumentacji - Canning", font=('Helvetica', 20, 'bold'), bg='#0033A0', fg='#ffffff')
